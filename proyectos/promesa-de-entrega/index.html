@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>La promesa de entrega | Ramiro Gattone</title>
+<meta name="description" content="Análisis de 96.203 pedidos reales de un marketplace brasileño: cuánto cuesta no cumplir la fecha de entrega prometida y dónde se rompe esa promesa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap">
+<link rel="stylesheet" href="../../style.css">
+<script src="https://cdn.jsdelivr.net/npm/vega@5" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6" defer></script>
+<script src="promesa-datos.js" defer></script>
+<script src="charts.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="top">
+  <nav class="wrap" aria-label="Principal">
+    <a class="brand" href="../../">Ramiro Gattone</a>
+    <ul>
+      <li><a href="../../#proyectos">Proyectos</a></li>
+      <li><a href="../../#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="contenido" class="wrap doc story">
+  <p class="doc__back"><a href="../../#proyectos"><span aria-hidden="true">←</span> Volver a proyectos</a></p>
+  <h1>La promesa de entrega</h1>
+  <p class="lead">Cuánto le cuesta a un marketplace no cumplir la fecha que promete, y dónde se rompe esa promesa. Análisis de 96.203 pedidos reales de Olist, un marketplace de Brasil, entre enero de 2017 y agosto de 2018.</p>
+
+  <ul class="kpis" aria-label="Indicadores principales">
+    <li><span class="kpi__num"><span data-count="93.2" data-dec="1">93,2</span>%</span><span class="kpi__label">de los pedidos llega a tiempo</span></li>
+    <li><span class="kpi__num"><span data-count="24">24</span> <small>vs</small> <span data-count="10">10</span></span><span class="kpi__label">días prometidos contra días reales (medianas)</span></li>
+    <li><span class="kpi__num kpi__num--data"><span data-count="53.8" data-dec="1">53,8</span>%</span><span class="kpi__label">de reseñas de 1 estrella cuando hay atraso (6,6% a tiempo)</span></li>
+    <li><span class="kpi__num"><span data-count="3.0" data-dec="1">3,0</span>%</span><span class="kpi__label">de los clientes vuelve a comprar</span></li>
+  </ul>
+
+  <section class="viz" data-reveal aria-labelledby="g1">
+    <h2 id="g1">Un solo día de atraso ya se paga en reseñas</h2>
+    <p>Pasá el cursor o tocá la línea para ver cada día. Puntaje medio de reseña según cuántos días antes o después de la fecha prometida llegó el pedido. Llegando el día prometido, el promedio es 4,03; con un día de atraso baja a 3,73 y con cuatro, a 2,50. Llegar antes casi no suma: entre 6 y más de 20 días de adelanto, el puntaje se mueve solo entre 4,25 y 4,36.</p>
+    <div id="chart-precipicio" class="viz__chart" role="img" aria-label="Línea del puntaje medio de reseña por días respecto de la fecha prometida. Cae de 4,03 el día prometido a 3,73 con un día de atraso, 2,50 con cuatro y cerca de 1,7 con ocho o más. Con adelanto se mantiene entre 4,1 y 4,4."></div>
+    <p class="viz__note">Banda: intervalo de confianza del 95%. Se toma la última reseña de cada pedido. Rango mostrado: 15 días de atraso a 25 de adelanto.</p>
+  </section>
+
+  <section class="viz" data-reveal aria-labelledby="g2">
+    <h2 id="g2">La promesa se rompe más en el nordeste</h2>
+    <p>Cumplimiento de la fecha prometida por estado del cliente. Los cinco estados con peor cumplimiento son del nordeste: Alagoas llega a tiempo en el 78,5% de los pedidos y Maranhão en el 82,5%, contra el 95,5% de São Paulo. Río de Janeiro es la excepción del sudeste: 87,9%, pese a ser el segundo mercado.</p>
+    <div class="picker">
+      <label for="estado-sel">Elegí un estado para resaltarlo en este gráfico y en los dos siguientes</label>
+      <div class="picker__row">
+        <select id="estado-sel"><option value="">Todos los estados</option></select>
+        <button type="button" class="btn btn--sm" id="estado-clear" hidden>Quitar selección</button>
+      </div>
+      <p class="picker__out" id="estado-out" aria-live="polite"></p>
+    </div>
+    <div id="chart-mapa" class="viz__chart viz__chart--map" role="img" aria-label="Mapa de mosaicos de los 27 estados de Brasil coloreados por porcentaje de pedidos entregados a tiempo. Los valores más bajos están en Alagoas, Maranhão, Sergipe, Piauí y Ceará; entre los mercados grandes, los más altos son Paraná y São Paulo."></div>
+    <p class="viz__note">Mapa de mosaicos: cada estado ocupa un cuadrado en una posición aproximada a la real, para que los estados chicos se vean igual que los grandes.</p>
+  </section>
+
+  <section class="viz" data-reveal aria-labelledby="g3">
+    <h2 id="g3">El plazo prometido incluye un colchón de casi dos semanas</h2>
+    <p>Mediana de días prometidos contra días reales de entrega, por estado. En el total, se prometen 24 días y se entregan 10. El colchón explica buena parte del 93% de cumplimiento, y según el primer gráfico, casi no mejora la satisfacción.</p>
+    <div id="chart-colchon" class="viz__chart" role="img" aria-label="Gráfico de pesas por estado: para cada estado, un punto con la mediana de días reales de entrega y otro con la mediana de días prometidos. En todos los estados los días prometidos superan a los reales."></div>
+  </section>
+
+  <section class="viz" data-reveal aria-labelledby="g4">
+    <h2 id="g4">Dos de cada tres envíos cruzan una frontera estatal</h2>
+    <p>Matriz de flujos entre el estado del vendedor (filas) y el del cliente (columnas). El color indica el porcentaje de ítems entregados con atraso. La oferta se concentra en el sudeste y el 63,8% de los ítems viaja a otro estado.</p>
+    <div id="chart-flujos" class="viz__chart" role="img" aria-label="Matriz de calor de flujos entre estado del vendedor y estado del cliente, coloreada por porcentaje de atraso. La mayoría de los envíos sale de São Paulo."></div>
+    <p class="viz__note">Se muestran los cruces con al menos 30 ítems.</p>
+  </section>
+
+  <section class="viz" data-reveal aria-labelledby="g5">
+    <h2 id="g5">Cuanto más lejos, más pesa el flete y menos se cumple</h2>
+    <p>Distribución de la distancia vendedor-cliente contra el peso del flete sobre el total pagado por ítem. La línea es la mediana: pasa de 15,1% por debajo de 100 km a 25,8% por encima de 2.000 km, mientras el cumplimiento cae de 95,5% a 88,1%.</p>
+    <div id="chart-flete" class="viz__chart" role="img" aria-label="Mapa de calor de densidad de ítems por distancia y peso del flete, con una línea de mediana ascendente: a mayor distancia, mayor peso del flete."></div>
+    <p class="viz__note">Distancia calculada con la fórmula de haversine entre las coordenadas medianas de los códigos postales del vendedor y del cliente. Se omiten 326 ítems (0,3%) con un flete de 70% o más del total.</p>
+  </section>
+
+  <section class="viz" data-reveal aria-labelledby="g6">
+    <h2 id="g6">Casi nadie vuelve a comprar</h2>
+    <p>Porcentaje de cada cohorte mensual de clientes nuevos que vuelve a comprar en los meses siguientes. Ningún mes supera el 0,8%, y en total solo el 3,0% de los clientes compra más de una vez. Ojo con la trampa de esta base: si se cuenta por <code>customer_id</code>, que cambia en cada pedido, la recompra da 0%.</p>
+    <div id="chart-cohortes" class="viz__chart" role="img" aria-label="Mapa de calor de cohortes mensuales por meses desde la primera compra. Todos los valores de recompra están por debajo del 0,8%."></div>
+  </section>
+
+  <section class="viz" data-reveal aria-labelledby="g7">
+    <h2 id="g7">El 10% de los vendedores factura el 67%</h2>
+    <p>Curva de Lorenz de la facturación por vendedor. El coeficiente de Gini es 0,79 sobre 2.945 vendedores: la plataforma depende de un grupo chico de vendedores grandes.</p>
+    <div class="picker">
+      <label for="top-range">Porcentaje de vendedores más grandes: <strong><output id="top-val" for="top-range">10</output>%</strong></label>
+      <input type="range" id="top-range" min="1" max="50" value="10" step="1">
+      <p class="picker__out" id="top-out" aria-live="polite">El 10% de los vendedores con más ventas factura el 67%.</p>
+    </div>
+    <div id="chart-lorenz" class="viz__chart" role="img" aria-label="Curva de Lorenz de la facturación por vendedor, muy alejada de la diagonal de igualdad. El 90% de los vendedores con menos ventas factura el 33% del total."></div>
+  </section>
+
+  <section class="findings" data-reveal aria-labelledby="rec">
+    <h2 id="rec">Qué haría con esto</h2>
+    <ol>
+      <li><strong>Prometer por región, no con un colchón fijo.</strong> Doce días de margen compran poca satisfacción después de los primeros seis. Ajustar la promesa por estado podría mejorar la conversión sin costo en reseñas; es una hipótesis para validar con un experimento, porque esta base no tiene datos de conversión.</li>
+      <li><strong>Atacar el atraso donde se concentra.</strong> Alagoas, Maranhão, Sergipe, Piauí y Ceará tienen el peor cumplimiento. Por volumen, Río de Janeiro es el segundo estado con más pedidos atrasados (1.495), detrás de São Paulo (1.817), con menos de un tercio de sus pedidos.</li>
+      <li><strong>Cuidar a los vendedores grandes y trabajar la recompra.</strong> El 10% de los vendedores genera el 67% de la facturación y solo el 3% de los clientes vuelve. El negocio depende de pocos vendedores y de clientes nuevos.</li>
+    </ol>
+    <p class="viz__note">Son asociaciones, no efectos causales probados. Los datos son de 2017 y 2018.</p>
+  </section>
+
+  <section class="method" data-reveal aria-labelledby="met">
+    <h2 id="met">Cómo lo hice</h2>
+    <p>Cargué las 9 tablas en DuckDB, armé un modelo de hechos por pedido y por ítem en SQL y calculé los indicadores con definiciones escritas antes de mirar los resultados. Las decisiones de limpieza están documentadas: una sola reseña por pedido (547 pedidos tenían más de una), coordenadas medianas por código postal (la tabla trae 1.000.163 filas para 19.015 códigos), 42 puntos fuera de Brasil descartados y solo pedidos entregados con fecha de entrega.</p>
+    <p>Fuente: <a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce" rel="noopener">Brazilian E-Commerce Public Dataset by Olist</a>, licencia CC BY-NC-SA 4.0. Gráficos hechos con Vega-Lite.</p>
+  </section>
+</main>
+
+<footer class="foot"><div class="wrap"><small>Ramiro Gattone · Santa Fe, Argentina</small></div></footer>
+</body>
+</html>
